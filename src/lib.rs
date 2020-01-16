@@ -6,22 +6,16 @@ use std::{
     thread::{self, Thread},
 };
 
-unsafe fn clone(data: *const ()) -> RawWaker {
-    let arc = Arc::from_raw(data as *const Thread);
-    std::mem::forget(arc.clone());
-    RawWaker::new(Arc::into_raw(arc) as *const (), &VTABLE)
-}
-unsafe fn wake(data: *const ()) {
-    Arc::from_raw(data as *const Thread).unpark()
-}
-unsafe fn wake_by_ref(data: *const ()) {
-    (*(data as *const Thread)).unpark()
-}
-unsafe fn drop(data: *const ()) {
-    Arc::from_raw(data as *const Thread);
-}
-
-static VTABLE: RawWakerVTable = RawWakerVTable::new(clone, wake, wake_by_ref, drop);
+static VTABLE: RawWakerVTable = RawWakerVTable::new(
+    |clone_me| unsafe {
+        let arc = Arc::from_raw(clone_me as *const Thread);
+        std::mem::forget(arc.clone());
+        RawWaker::new(Arc::into_raw(arc) as *const (), &VTABLE)
+    },
+    |wake_me| unsafe { Arc::from_raw(wake_me as *const Thread).unpark() },
+    |wake_by_ref_me| unsafe { (*(wake_by_ref_me as *const Thread)).unpark() },
+    |drop_me| unsafe { drop(Arc::from_raw(drop_me as *const Thread)) },
+);
 
 /// Run a `Future`.
 pub fn run<F: Future>(mut f: F) -> F::Output {
