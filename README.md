@@ -1,5 +1,6 @@
 # extreme
-super boring async function runner
+
+super boring async function runner, less than 50 lines of code.
 
 docs:
 
@@ -7,5 +8,5 @@ docs:
 /// Run a `Future`.
 pub fn run<F, O>(f: F) -> O
 where
-    F: Future<Output = O> + Unpin
+    F: Future<Output = O>
 ```
