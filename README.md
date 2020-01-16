@@ -1,6 +1,6 @@
 # extreme
 
-super boring async function runner, less than 50 lines of code.
+super boring async function runner, less than 40 lines of code.
 
 docs:
 
