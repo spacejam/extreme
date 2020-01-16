@@ -1,0 +1,14 @@
+# This suppressions file should really only be used for things
+# that TSAN can not correctly reason about, like raw memory
+# fences or implicit equivalents created by performing atomic
+# operations on variables.
+
+# Read more about how to use this file at:
+# https://github.com/google/sanitizers/wiki/ThreadSanitizerSuppressions
+
+# Arc::drop is not properly detected by TSAN due to the use
+# of a raw atomic Acquire fence after the strong-count
+# atomic subtraction with a Release fence in the Drop impl.
+race:Arc*drop
+race:Condvar::destroy
+race:std::sync::mpsc
