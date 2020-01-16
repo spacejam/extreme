@@ -1,6 +1,6 @@
 [package]
 name = "extreme"
-version = "0.0.0"
+version = "1.0.0"
 authors = ["Tyler Neely <t@jujit.su>"]
 edition = "2018"
 description = "Very boring async function runner. MIT/Apache-2.0 license is available for spacejam's github sponsors."
@@ -11,7 +11,3 @@ keywords = ["async"]
 categories = ["asynchronous"]
 documentation = "https://docs.rs/extreme"
 readme = "README.md"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
