@@ -1,4 +1,4 @@
-# extreme!!!!!!!!!!!!!!!!!!!!!!!
+# extreme!
 
 extremely boring async function runner.
 
