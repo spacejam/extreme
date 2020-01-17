@@ -1,6 +1,6 @@
 # extreme!!!!!!!!!!!!!!!!!!!!!!!
 
-super boring async function runner.
+extremely boring async function runner.
 
 docs:
 
