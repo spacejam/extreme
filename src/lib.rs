@@ -2,11 +2,10 @@ use std::sync::{Arc, Condvar, Mutex};
 use std::task::{Context, Poll, RawWaker, RawWakerVTable, Waker};
 
 #[derive(Default)]
-struct Park(Mutex<u64>, Condvar);
+struct Park(Mutex<bool>, Condvar);
 
 fn unpark(park: &Park) {
-    let mut counter = park.0.lock().unwrap();
-    *counter += 1;
+    *park.0.lock().unwrap() = true;
     park.1.notify_one();
 }
 
@@ -23,6 +22,7 @@ static VTABLE: RawWakerVTable = RawWakerVTable::new(
 
 /// Run a `Future`.
 pub fn run<F: std::future::Future>(mut f: F) -> F::Output {
+    let mut f = unsafe { std::pin::Pin::new_unchecked(&mut f) };
     let park = Arc::new(Park::default());
     let sender = Arc::into_raw(park.clone());
     let raw_waker = RawWaker::new(sender as *const _, &VTABLE);
@@ -30,14 +30,13 @@ pub fn run<F: std::future::Future>(mut f: F) -> F::Output {
     let mut cx = Context::from_waker(&waker);
 
     loop {
-        let pin = unsafe { std::pin::Pin::new_unchecked(&mut f) };
-        match F::poll(pin, &mut cx) {
+        match f.as_mut().poll(&mut cx) {
             Poll::Pending => {
-                let mut counter = park.0.lock().unwrap();
-                while *counter == 0 {
-                    counter = park.1.wait(counter).unwrap();
+                let mut runnable = park.0.lock().unwrap();
+                while !*runnable {
+                    runnable = park.1.wait(runnable).unwrap();
                 }
-                *counter -= 1;
+                *runnable = false;
             }
             Poll::Ready(val) => return val,
         }

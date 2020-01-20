@@ -1,6 +1,6 @@
 [package]
 name = "extreme"
-version = "666.666.66666"
+version = "666.666.666666"
 authors = ["Tyler Neely <t@jujit.su>"]
 edition = "2018"
 description = "Extremely boring async function runner. MIT/Apache-2.0 license is available for spacejam's github sponsors."
