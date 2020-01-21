@@ -73,4 +73,4 @@ miri, LSAN, and TSAN have also been run on this code, although they have not fou
 
 ## conclusion
 
-Runtimes can be pretty simple. `unsafe` must be paired with tools like the sanitizer script in this repo, and ideally as much peer feedback as possible. None of the people mentioned above were requested to look at this code, but because it was only a few dozen lines long, they took a look and provided helpful feedback. Time spent making things look cute and short turned into peer feedback that caught real bugs.
+Runtimes can be pretty simple. Simple is not easy. `unsafe` must be paired with tools like the sanitizer script in this repo, and ideally as much peer feedback as possible. None of the people mentioned above were requested to look at this code, but because it was only a few dozen lines long, they took a look and provided helpful feedback. Time spent making things look cute and short turned into peer feedback that caught real bugs.
