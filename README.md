@@ -66,7 +66,7 @@ pub fn run<F: std::future::Future>(mut f: F) -> F::Output {
 
 ## how does it work?
 
-Rust async blocks and functions evaluate to an implementation of [the `Future` trait](https://doc.rust-lang.org/std/future/trait.Future.html), which has one method: `poll`. If you want to run a Rust `Future` by calling its `poll` method, you need to have a `Context` that you can pass to it. This `Context` allows the `Future` to have some information about the system it is running inside of. In particular, a `Context` provides access to a `Waker`, which is essentially just a raw pointer and a `RawWakerVTable` which can be thought of almost like a trait implementation. The `Waker` allows the `Future` to notify the runtime at a later time, communicating that it should be polled again. You must 
+Rust async blocks and functions evaluate to an implementation of [the `Future` trait](https://doc.rust-lang.org/std/future/trait.Future.html), which has one method: `poll`. If you want to run a Rust `Future` by calling its `poll` method, you need to have a `Context` that you can pass to it. This `Context` allows the `Future` to have some information about the system it is running inside of. In particular, a `Context` provides access to a `Waker`, which is essentially just a raw pointer and a `RawWakerVTable` which can be thought of almost like a trait implementation. The `Waker` allows the `Future` to notify the runtime at a later time, communicating that it should be polled again. 
 
 ## bugs encountered over time
 
