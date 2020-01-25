@@ -2,6 +2,10 @@
 
 extremely boring async function runner, written in 44 lines of 0-dependency Rust.
 
+## why?
+
+I teach custom Rust workshops that cover a wide variety of low-level subjects. This lays bear the essential runtime complexity of Rust's async functionality for educational purposes. 
+
 ## documentation
 
 ```rust
