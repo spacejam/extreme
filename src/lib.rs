@@ -21,8 +21,8 @@ static VTABLE: RawWakerVTable = RawWakerVTable::new(
 );
 
 /// Run a `Future`.
-pub fn run<F: std::future::Future>(mut f: F) -> F::Output {
-    let mut f = unsafe { std::pin::Pin::new_unchecked(&mut f) };
+pub unsafe fn run<F: std::future::Future>(mut f: F) -> F::Output {
+    let mut f = std::pin::Pin::new_unchecked(&mut f);
     let park = Arc::new(Park::default());
     let sender = Arc::into_raw(park.clone());
     let raw_waker = RawWaker::new(sender as *const _, &VTABLE);

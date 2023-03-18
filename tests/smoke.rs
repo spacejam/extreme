@@ -11,18 +11,20 @@ use std::{
 #[test]
 fn smoke() {
     let s = S(Arc::new(AtomicBool::new(false)));
-    extreme::run(async {});
-    extreme::run(async {
-        async {
-            s.await
-        }.await
-    });
-    extreme::run(async {
-        async {
+    unsafe {
+        extreme::run(async {});
+        extreme::run(async {
             async {
+                s.await
             }.await
-        }.await
-    });
+        });
+        extreme::run(async {
+            async {
+                async {
+                }.await
+            }.await
+        });
+    }
 }
 
 struct S(Arc<AtomicBool>);
